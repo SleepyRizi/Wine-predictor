@@ -20,15 +20,23 @@ def home():
 
 def predict():
 
+
     if request.method == 'POST':
         message = request.form['message']
         message= textPreprocessing(message)
-        output= vectorization([message])
-        model = load_model()
-        prediction_array = predictions(model,output)
+        if(len(message)!=0):
 
-        my_prediction = classes[np.argsort(prediction_array[0])[-1]]
+
+            output= vectorization([message])
+
+            model = load_model()
+            prediction_array = predictions(model,output)
+
+            my_prediction = classes[np.argsort(prediction_array[0])[-1]]
+        else:
+            my_prediction="Desciption not clear"
         # print(my_prediction)
+
 
     return render_template('result.html',prediction = my_prediction.upper())
 
